@@ -1,0 +1,123 @@
+/* Proposed plugin architecture: semantic content and CSS-only connectors. */
+.architecture-heading{align-items:start}
+.architecture-intro{max-width:380px}
+.architecture-intro p{font-size:14px;color:var(--muted);margin:16px 0 0}
+.architecture-status{display:inline-flex;align-items:center;gap:8px;padding:5px 12px;border:1px solid var(--line);border-radius:30px;font-size:11px;color:var(--blue)}
+.architecture-status:before{content:'';width:6px;height:6px;border:1px solid currentColor;border-radius:50%}
+.architecture-figure{margin:0}
+.architecture-bar{display:flex;justify-content:space-between;gap:16px;padding-block:16px;border-block:1px solid var(--line);font-size:10px;color:var(--blue)}
+.architecture-bar span:last-child{color:var(--muted)}
+.architecture-flow{--wire:32px;display:grid;grid-template-columns:1fr 1.08fr 1fr 1fr;gap:var(--wire);align-items:center;padding:36px 0;direction:ltr}
+.architecture-sources{display:grid;gap:24px;position:relative}
+.architecture-sources:after{content:'';position:absolute;inset-block:25%;inset-inline-end:-16px;width:16px;border:1px solid var(--blue);border-inline-start:0}
+.architecture-node{position:relative;min-width:0;border:1px solid var(--line);border-radius:6px;padding:22px 20px;background:var(--panel)}
+.architecture-node header{display:flex;align-items:center;justify-content:space-between;gap:8px;color:var(--blue);font-size:10px}
+.architecture-node h3{font-size:20px;line-height:1.4;font-weight:450;letter-spacing:-.5px;margin:17px 0 6px;color:var(--blue);overflow-wrap:anywhere}
+.architecture-node .architecture-role{font-size:12px;color:var(--muted);margin:0 0 16px}
+.architecture-node ul{list-style:none;padding:0;margin:0;font-size:12px;line-height:1.9}
+.architecture-node li{position:relative;padding-inline-start:12px;margin-block:5px}
+.architecture-node li:before{content:'';position:absolute;inset-inline-start:0;top:.85em;width:3px;height:3px;background:currentColor;border-radius:50%}
+.architecture-port{display:block;border-top:1px solid var(--line);padding-top:12px;margin-top:18px;font-size:10px;color:var(--blue)}
+.architecture-export{display:block;font-size:10px;color:var(--muted);border-top:1px dashed var(--line);margin-top:12px;padding-top:10px}
+.architecture-connected:before{content:'';position:absolute;inset-inline-start:calc(-1 * var(--wire) - 1px);top:50%;width:var(--wire);border-top:1px solid var(--blue)}
+.architecture-connected:after{content:'';position:absolute;inset-inline-start:-6px;top:calc(50% - 3px);width:6px;height:6px;border-top:1px solid var(--blue);border-right:1px solid var(--blue);transform:rotate(45deg)}
+.architecture-model{background:var(--blue);border-color:var(--blue);color:var(--paper)}
+.architecture-model header,.architecture-model h3,.architecture-model .architecture-role,.architecture-model .architecture-port{color:var(--paper)}
+.architecture-model .architecture-port{border-color:#f3efe550}
+.architecture-seed{display:inline-block;padding:3px 9px;border:1px solid #f3efe550;border-radius:3px;font-size:11px;direction:ltr;margin-bottom:9px}
+.architecture-caption{display:grid;grid-template-columns:1fr 1fr;gap:32px;border-top:1px solid var(--line);padding-top:22px}
+.architecture-caption p{font-size:12px;color:var(--muted);margin:0}
+.architecture-caption strong{display:block;font-size:13px;font-weight:500;color:var(--blue);margin-bottom:5px}
+[dir=rtl] .architecture-node{direction:rtl}
+[dir=rtl] .architecture-node h3{letter-spacing:0;text-align:start}
+[dir=rtl] .architecture-node h3 bdi{display:block;direction:ltr}
+[dir=rtl] .architecture-flow{direction:rtl}
+[dir=rtl] .architecture-connected:after{transform:rotate(-135deg)}
+@media(max-width:1100px){
+ .architecture-flow{grid-template-columns:1fr;gap:32px;max-width:660px;margin-inline:auto}
+ .architecture-sources{grid-template-columns:1fr 1fr;gap:20px}
+ .architecture-sources:after{inset-inline:25%;inset-block:auto -16px;width:auto;height:16px;border:1px solid var(--blue);border-top:0}
+ .architecture-connected:before{inset-inline-start:50%;top:-33px;width:0;height:32px;border-top:0;border-inline-start:1px solid var(--blue)}
+ .architecture-connected:after{inset-inline-start:calc(50% - 3px);top:-6px;transform:rotate(135deg)}
+ [dir=rtl] .architecture-connected:after{transform:rotate(135deg);inset-inline-start:calc(50% - 3px)}
+ .architecture-model ul{display:grid;grid-template-columns:1fr 1fr;gap:0 20px}
+}
+@media(max-width:480px){
+ .architecture-sources{gap:12px}
+ .architecture-node{padding:18px 14px}
+ .architecture-sources .architecture-node{padding:16px 12px}
+ .architecture-node h3{font-size:19px}
+ .architecture-sources .architecture-node h3{font-size:17px}
+ .architecture-node header{font-size:9px}
+ .architecture-node ul,.architecture-node .architecture-role{font-size:11px}
+ .architecture-model ul{grid-template-columns:1fr}
+ .architecture-caption{grid-template-columns:1fr;gap:20px}
+ .architecture-bar{flex-wrap:wrap;font-size:9px;gap:6px}
+}
+
+/* A blueprint field connects spatial, behavioral and analytical representations. */
+.architecture-figure{--signal:#8edee0;--signal-soft:#8edee035;--diagram-text:#f3efe5;--diagram-muted:#b4c7d1;--diagram-line:#8edee035;color:var(--diagram-text);background:#0e293e;border:1px solid #194779;border-radius:12px;overflow:hidden;box-shadow:0 22px 60px #0e293e18}
+.architecture-bar{padding:18px 26px;color:var(--signal);border-color:var(--diagram-line);align-items:center;flex-wrap:wrap;position:relative}
+.architecture-bar span:last-child{color:var(--diagram-muted)}
+.architecture-motion{order:3;border:1px solid var(--diagram-line);border-radius:30px;background:transparent;color:var(--signal);padding:5px 12px;font-size:10px}
+.architecture-motion:hover{border-color:var(--signal)}
+.architecture-motion[hidden]{display:none}
+.architecture-flow{padding:34px 26px;position:relative;isolation:isolate;background-image:radial-gradient(ellipse at 40% 50%,#28778a24,transparent 65%),linear-gradient(#8edee008 1px,transparent 1px),linear-gradient(90deg,#8edee008 1px,transparent 1px);background-size:auto,24px 24px,24px 24px}
+.architecture-node{background:#123147e8;border-color:var(--diagram-line);border-radius:8px;padding:20px 17px;transition:border-color .25s,box-shadow .25s}
+.architecture-node:hover{border-color:#8edee090;box-shadow:0 0 24px #8edee012}
+.architecture-node header,.architecture-node h3,.architecture-port{color:var(--signal)}
+.architecture-node h3{margin-top:12px;font-size:22px;color:var(--diagram-text)}
+.architecture-node .architecture-role,.architecture-export{color:var(--diagram-muted)}
+.architecture-port,.architecture-export{border-color:var(--diagram-line)}
+.architecture-node ul{color:var(--diagram-text)}
+.architecture-node li:before{background:var(--signal)}
+.architecture-model{background:linear-gradient(145deg,#204e63,#15394e);border-color:#8edee080;box-shadow:0 0 45px #8edee00d}
+.architecture-model:after{box-shadow:0 0 14px #8edee060}
+.architecture-model header,.architecture-model .architecture-port{color:var(--signal)}
+.architecture-model .architecture-role{color:var(--diagram-muted)}
+.architecture-model .architecture-port{border-color:var(--diagram-line)}
+.architecture-seed{color:#f3cc8e;border-color:#f3cc8e65;background:#f3cc8e0c;border-radius:20px}
+.architecture-sources:after,.architecture-connected:before,.architecture-connected:after{border-color:var(--signal)}
+.architecture-connected:before{border-top:0;height:1px;background:repeating-linear-gradient(90deg,var(--signal) 0 4px,transparent 4px 8px);animation:architecture-transfer 1.8s linear infinite;animation-play-state:paused}
+[dir=rtl] .architecture-connected:before{animation-direction:reverse}
+.architecture-caption{padding:24px 26px;border-color:var(--diagram-line);background:#0c2437;gap:40px}
+.architecture-caption p{color:var(--diagram-muted)}
+.architecture-caption strong{color:var(--signal)}
+.architecture-art{display:block;width:100%;height:116px;margin:12px 0 4px;overflow:visible;direction:ltr;fill:none;stroke-linejoin:round;stroke-linecap:round}
+.art-model{height:157px;filter:drop-shadow(0 4px 14px #8edee015)}
+.art-grid{stroke:#8edee025;stroke-width:.8}
+.art-wall{stroke:#b4d2dc;stroke-width:1.8}
+.art-block{fill:#8edee020;stroke:#8edee080;stroke-width:1}
+.art-route{stroke:var(--signal);stroke-width:1.8;stroke-dasharray:5 5;animation:architecture-route 3s linear infinite;animation-play-state:paused}
+.art-agent{fill:var(--signal);stroke:none}
+.art-core{fill:#f3cc8e;stroke:#f3cc8e40;stroke-width:9}
+.art-core-line{stroke:#f3cc8e;stroke-width:1;stroke-dasharray:3 4}
+.art-exit{stroke:#f3cc8e;stroke-width:2}
+.art-orbit{stroke:#8edee045;stroke-width:1;stroke-dasharray:3 7}
+.art-trail{stroke:#b4c7d160;stroke-width:1.5}
+.art-layer{stroke:#8edee080;stroke-width:1}
+.art-layer-bottom{fill:#8edee008}.art-layer-middle{fill:#8edee00e}.art-layer-top{fill:#1c4a60}
+.art-bars{fill:#8edee018;stroke:#8edee060;stroke-width:1}
+.architecture-figure[data-motion=running] .art-route,.architecture-figure[data-motion=running] .architecture-connected:before{animation-play-state:running}
+@keyframes architecture-transfer{to{background-position:32px 0}}
+@keyframes architecture-route{to{stroke-dashoffset:-60}}
+@media(max-width:1100px){
+ .architecture-flow{max-width:none;margin:0;padding:32px clamp(18px,7vw,80px)}
+ .architecture-art{height:120px}.art-model{height:160px}
+ .architecture-connected:before{width:1px;height:32px;background:repeating-linear-gradient(0deg,var(--signal) 0 4px,transparent 4px 8px);border:0;animation-name:architecture-transfer-vertical}
+ .architecture-sources:after{border-color:var(--signal)}
+ [dir=rtl] .architecture-connected:before{animation-direction:normal}
+}
+@keyframes architecture-transfer-vertical{to{background-position:0 32px}}
+@media(max-width:480px){
+ .architecture-flow{padding:26px 14px}
+ .architecture-node{padding:18px 16px}
+ .architecture-sources .architecture-node{padding:15px 11px}
+ .architecture-sources .architecture-art{height:78px}
+ .architecture-node h3{font-size:21px}
+ .architecture-sources .architecture-node h3{font-size:16px;letter-spacing:-.4px}
+ .architecture-node ul,.architecture-node .architecture-role{font-size:12px}
+ .architecture-sources .architecture-node ul,.architecture-sources .architecture-role{font-size:11px}
+ .architecture-bar,.architecture-caption{padding:18px}
+}
+@media(prefers-reduced-motion:reduce){.architecture-art *,.architecture-connected:before{animation:none!important}.architecture-node{transition:none}}

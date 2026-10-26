@@ -40,6 +40,14 @@ Numbers and interface labels follow the selected language.
   controls, FAQ, and technical guide links.
 - `assets/style.css`: responsive layout, RTL, reveal and hover transitions,
   keyboard focus, and reduced-motion styles.
+- `assets/architecture.css`: proposed five-stage simulation diagram at
+  `/en/#architecture` and `/fa/#architecture`. Semantic HTML remains readable
+  without JavaScript; CSS connectors follow LTR/RTL and stack on narrow screens.
+  Each stage may use one or more plugin components. This is a proposal based on
+  the Python model, not a released plugin feature.
+- `assets/architecture.js`: independent decorative diagram motion with a pause
+  control, reduced-motion defaults, and offscreen/hidden-tab suspension. Inline
+  SVG sketches illustrate the grid, population, model assembly, movement and analysis.
 - `assets/app.js`: mobile navigation and the standalone illustrative grid demo.
 - `assets/brand-intro.js`: a finite 2.75-second fullscreen particle/fish entrance,
   followed by docking into the original static wordmark. Runs once per tab session
